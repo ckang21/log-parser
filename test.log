@@ -1,5 +1,5 @@
-INFO: System started
-ERROR: Something went wrong!
-WARNING: Low disk space
-ERROR: Database connection failed
-INFO: User logged in
+[2025-03-11 10:00:00] INFO: System started
+[2025-03-11 10:05:00] ERROR: Something went wrong!
+[2025-03-11 10:10:00] WARNING: Low disk space
+[2025-03-11 10:15:00] ERROR: Database connection failed
+[2025-03-11 10:20:00] INFO: User logged in
