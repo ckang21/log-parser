@@ -1,10 +1,12 @@
 import click
 import re
+import json
 
 @click.command()
 @click.argument("logfile", type=click.File("r"))
 @click.option("--output", type=click.Path(writable=True), default="errors.log", help="File to save errors")
-def read_log(logfile, output):
+@click.option("--json-output", type=click.Path(writable=True), default="errors.json", help="File to save errors in JSON format")
+def read_log(logfile, output, json_output):
     """Reads log and saves errors to a different file."""
     total_errors = 0
     found_errors = []
@@ -18,14 +20,20 @@ def read_log(logfile, output):
             # Format the log entry with the extracted time
             formatted_error = f"{timestamp} - {line}"
             print(formatted_error)  
-            found_errors.append(formatted_error)  
+            found_errors.append({"timestamp": timestamp, "message": line})  
             total_errors += 1  
 
     if found_errors:    #If we have anything we will make the file
         with open(output, "w") as f:
             for error in found_errors:
-                f.write(error + "\n")
+                f.write(f"{error['timestamp']} - {error['message']}\n")
         print(f"\nErrors saved to {output}")
+
+    if found_errors:    # Now we make a JSON file
+        with open(json_output, "w") as f:
+            json.dump(found_errors, f, indent=4)
+        
+        print(f"Errors saved to {json_output}")
 
     print(f"\nTotal Errors is: {total_errors}")
 
